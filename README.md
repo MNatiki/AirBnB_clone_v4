@@ -154,8 +154,8 @@ EOF  all  create  destroy  help  quit  show  update
 No known bugs at this time. 
 
 ## Authors
-Besufikad Yilma <07yilmabese@gmail.com>
-NATNAEL MENGISTU <natiart07@gmail.com>
+Besufikad Yilma <Github>(https://github.com/bese3) <Linkedin>(https://linkedin.com/in/besufikad-yilma-711702259)
+NATNAEL MENGISTU <Github>(https://github.com/MNatiki) <Linkedin>()
 Second part of Airbnb: Joann Vuong
 ## License
 Public Domain. No copy write protection. 
