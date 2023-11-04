@@ -18,6 +18,18 @@ $(document).ready(function () {
         $('.amenities h4').text(allamen);
     });
 
+    $.ajax({
+        type: 'GET',
+        url: 'http://127.0.0.1:5001/api/v1/status',
+        success: (data) => {
+            if (data.status === 'OK'){
+                console.log(data.status)
+                $('#api_status').addClass('available')
+            } else{
+                $('#api_status').removeClass('available')
+            }
+        }
+    })
     // New code to handle the filter when the button is clicked
     $('button').on('click', function () {
         // Get the list of checked amenities
@@ -28,7 +40,7 @@ $(document).ready(function () {
         // Send a POST request to places_search with the list of checked amenities
         $.ajax({
             type: 'POST',
-            url: 'http://0.0.0.0:5001/api/v1/places_search',
+            url: 'http://127.0.0.1:5001/api/v1/places_search',
             contentType: 'application/json',
             data: JSON.stringify({ amenities: checkedAmenities }),
             success: function (places) {
@@ -52,7 +64,7 @@ $(document).ready(function () {
                         '</div>' +
                         '<div class="description">' + place.description + '</div>' +
                         '</article>';
-                    $('.places').append(placeHTML);
+                    $('section.places').append(placeHTML);
                 });
             }
         });
