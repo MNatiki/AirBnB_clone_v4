@@ -16,9 +16,50 @@ $(document).ready(function () {
             allamen += amenityName[i] + concat;
         }
         $('.amenities h4').text(allamen);
+    })
+ 
+
+    $.ajax({
+        type: 'GET',
+        url: 'http://127.0.0.1:5001/api/v1/status',
+        success: (data) => {
+            if (data.status === 'OK'){
+                console.log(data.status)
+                $('#api_status').addClass('available')
+            } else{
+                $('#api_status').removeClass('available')
+            }
+        }
+    })
+
+    $.ajax({
+        type: 'POST',
+        url: 'http://127.0.0.1:5001/api/v1/places_search',
+        contentType: 'application/json',
+        data: JSON.stringify({}),
+        success: (places) => {
+            $('.places').html('')
+            places.forEach((place) => {
+                let myPlace = '<article>' +
+                    '<div class="title_box">' +
+                    '<h2>' + place.name + '</h2>' +
+                    '<div class="price_by_night">$' + place.price_by_night + '</div>' +
+                    '</div>' +
+                    '<div class "information">' +
+                    '<div class="max_guest">' + place.max_guest + ' Guest' +
+                    (place.max_guest !== 1 ? 's' : '') + '</div>' +
+                    '<div class="number_rooms">' + place.number_rooms + ' Bedroom' +
+                    (place.number_rooms !== 1 ? 's' : '') + '</div>' +
+                    '<div class="number_bathrooms">' + place.number_bathrooms + ' Bathroom' +
+                    (place.number_bathrooms !== 1 ? 's' : '') + '</div>' +
+                    '</div>' +
+                    '<div class="description">' + place.description + '</div>' +
+                    '</article>';
+                    $('section.places').append(myPlace);
+            })
+        }
     });
 
-    // Code to handle the filter when the button is clicked
     $('button').on('click', function () {
         // Get the list of checked amenities
         var checkedAmenities = $('.amenities input[type=checkbox]:checked').map(function (i, e) {
@@ -28,7 +69,7 @@ $(document).ready(function () {
         // Send a POST request to places_search with the list of checked amenities
         $.ajax({
             type: 'POST',
-            url: 'http://0.0.0.0:5001/api/v1/places_search',
+            url: 'http://127.0.0.1:5001/api/v1/places_search',
             contentType: 'application/json',
             data: JSON.stringify({ amenities: checkedAmenities }),
             success: function (places) {
@@ -37,7 +78,7 @@ $(document).ready(function () {
 
                 // Loop through the places and create article tags
                 places.forEach(function (place) {
-                    var placeHTML = '<article>' +
+                    let placeHTML = '<article>' +
                         '<div class="title_box">' +
                         '<h2>' + place.name + '</h2>' +
                         '<div class="price_by_night">$' + place.price_by_night + '</div>' +
@@ -52,7 +93,7 @@ $(document).ready(function () {
                         '</div>' +
                         '<div class="description">' + place.description + '</div>' +
                         '</article>';
-                    $('.places').append(placeHTML);
+                    $('section.places').append(placeHTML);
                 });
             }
         });
